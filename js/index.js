@@ -44,6 +44,7 @@ var RequestCounter = (function (_super) {
                     if (_this.__counter === 0)
                         _this.emit("zero-count");
                 });
+                next();
             };
         },
         enumerable: true,

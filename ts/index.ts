@@ -34,6 +34,7 @@ class RequestCounter extends events.EventEmitter implements IRequestCounter {
                 this.emit("req-end", true);
                 if (this.__counter === 0) this.emit("zero-count");
             });
+            next();
         };
     }
 }
