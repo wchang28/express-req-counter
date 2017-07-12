@@ -29,18 +29,18 @@ var RequestCounter = (function (_super) {
             return function (req, res, next) {
                 _this.__counter++;
                 _this.emit("change", _this.__counter);
-                _this.emit("req-start");
+                _this.emit("req-start", req, res);
                 req.on("end", function () {
                     _this.__counter--;
                     _this.emit("change", _this.__counter);
-                    _this.emit("req-end", false);
+                    _this.emit("req-end", false, req, res);
                     if (_this.__counter === 0)
                         _this.emit("zero-count");
                 });
                 res.on("close", function () {
                     _this.__counter--;
                     _this.emit("change", _this.__counter);
-                    _this.emit("req-end", true);
+                    _this.emit("req-end", true, req, res);
                     if (_this.__counter === 0)
                         _this.emit("zero-count");
                 });
