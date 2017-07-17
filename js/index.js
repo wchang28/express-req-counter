@@ -30,14 +30,13 @@ var RequestCounter = (function (_super) {
                 _this.__counter++;
                 _this.emit("change", _this.__counter);
                 _this.emit("req-start", req, res);
-                req.on("end", function () {
+                res.on("finish", function () {
                     _this.__counter--;
                     _this.emit("change", _this.__counter);
                     _this.emit("req-end", false, req, res);
                     if (_this.__counter === 0)
                         _this.emit("zero-count");
-                });
-                res.on("close", function () {
+                }).on("close", function () {
                     _this.__counter--;
                     _this.emit("change", _this.__counter);
                     _this.emit("req-end", true, req, res);

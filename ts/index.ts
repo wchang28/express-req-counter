@@ -22,13 +22,12 @@ class RequestCounter extends events.EventEmitter implements IRequestCounter {
             this.__counter++;
             this.emit("change", this.__counter);
             this.emit("req-start", req, res);
-            req.on("end", () => {
+            res.on("finish", () => {
                 this.__counter--;
                 this.emit("change", this.__counter);
                 this.emit("req-end", false, req, res);
                 if (this.__counter === 0) this.emit("zero-count");
-            });
-            res.on("close", () => {
+            }).on("close", () => {
                 this.__counter--;
                 this.emit("change", this.__counter);
                 this.emit("req-end", true, req, res);
